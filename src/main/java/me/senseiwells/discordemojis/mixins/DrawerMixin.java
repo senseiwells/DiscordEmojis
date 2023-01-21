@@ -30,9 +30,6 @@ public class DrawerMixin implements EmojiVisitor {
 	@Override
 	public boolean visit(String emojiId) {
 		EmojiGlyph glyph = EmojiGlyphs.getGlyph(emojiId);
-		if (glyph == null) {
-			return false;
-		}
 		GlyphRenderer renderer = EmojiGlyphs.getGlyphRenderer(glyph);
 		VertexConsumer consumer = this.vertexConsumers.getBuffer(renderer.getLayer(this.layerType));
 		renderer.draw(false, this.x, this.y, this.matrix, consumer, this.red, this.green, this.blue, this.alpha, this.light);

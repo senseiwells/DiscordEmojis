@@ -9,9 +9,17 @@ import net.minecraft.util.Identifier;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class EmojiGlyphs {
+	private static final Executor IO_EXECUTOR = Executors.newSingleThreadExecutor();
+	private static final NativeImage DEFAULT_EMOJI = generateDefaultEmoji();
+
 	private static final List<GlyphAtlasTexture> ATLASES = new ArrayList<>();
 	private static final Map<String, EmojiGlyph> GLYPHS = new HashMap<>();
 
@@ -20,15 +28,18 @@ public class EmojiGlyphs {
 		if (glyph != null) {
 			return glyph;
 		}
-		try {
-			URL emojiUrl = new URL("https://cdn.discordapp.com/emojis/" + emojiId + ".png?size=80&quality=lossless");
-			glyph = new EmojiGlyph(NativeImage.read(emojiUrl.openStream()));
-			GLYPHS.put(emojiId, glyph);
-			return glyph;
-		} catch (IOException e) {
-			DiscordEmojis.LOGGER.error("Failed to get emoji", e);
-			return null;
-		}
+		EmojiGlyph newGlyph = new EmojiGlyph(DEFAULT_EMOJI);
+		GLYPHS.put(emojiId, newGlyph);
+		IO_EXECUTOR.execute(() -> {
+			try {
+				URL emojiUrl = new URL("https://cdn.discordapp.com/emojis/" + emojiId + ".png?size=80&quality=lossless");
+				NativeImage emoji = NativeImage.read(emojiUrl.openStream());
+				MinecraftClient.getInstance().execute(() -> newGlyph.setEmoji(emoji));
+			} catch (IOException e) {
+				DiscordEmojis.LOGGER.error("Failed to get emoji", e);
+			}
+		});
+		return newGlyph;
 	}
 
 	public static GlyphRenderer getGlyphRenderer(EmojiGlyph c) {
@@ -44,5 +55,11 @@ public class EmojiGlyphs {
 		ATLASES.add(atlas);
 		MinecraftClient.getInstance().getTextureManager().registerTexture(atlas.getId(), atlas);
 		return atlas.getGlyphRenderer(c);
+	}
+
+	private static NativeImage generateDefaultEmoji() {
+		NativeImage image = new NativeImage(8, 8, false);
+		image.untrack();
+		return image;
 	}
 }

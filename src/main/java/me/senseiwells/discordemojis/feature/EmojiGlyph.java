@@ -4,7 +4,7 @@ import net.minecraft.client.font.RenderableGlyph;
 import net.minecraft.client.texture.NativeImage;
 
 public class EmojiGlyph implements RenderableGlyph {
-	private final NativeImage emoji;
+	private NativeImage emoji;
 
 	public EmojiGlyph(NativeImage emoji) {
 		this.emoji = emoji;
@@ -22,7 +22,7 @@ public class EmojiGlyph implements RenderableGlyph {
 
 	@Override
 	public void upload(int x, int y) {
-		this.emoji.upload(0, x, y, false);
+		this.emoji.upload(0, x, y, 0, 0, this.getWidth(), this.getWidth(), true, false);
 	}
 
 	@Override
@@ -37,6 +37,10 @@ public class EmojiGlyph implements RenderableGlyph {
 
 	public float getShift() {
 		return this.getWidth() / this.getOversample();
+	}
+
+	public void setEmoji(NativeImage emoji) {
+		this.emoji = emoji;
 	}
 
 	//#if MC < 11900

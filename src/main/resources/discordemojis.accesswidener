@@ -1,2 +1,4 @@
 accessWidener v1 named
 accessible class net/minecraft/client/font/TextRenderer$Drawer
+accessible class net/minecraft/client/font/TextHandler$WidthLimitingVisitor
+accessible class net/minecraft/client/font/TextHandler$LineBreakingVisitor
