@@ -21,7 +21,7 @@ public class EmojiGlyphs {
 			return glyph;
 		}
 		try {
-			URL emojiUrl = new URL("https://cdn.discordapp.com/emojis/" + emojiId + ".png?size=20&quality=lossless");
+			URL emojiUrl = new URL("https://cdn.discordapp.com/emojis/" + emojiId + ".png?size=80&quality=lossless");
 			glyph = new EmojiGlyph(NativeImage.read(emojiUrl.openStream()));
 			GLYPHS.put(emojiId, glyph);
 			return glyph;

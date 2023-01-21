@@ -36,7 +36,7 @@ public class DrawerMixin implements EmojiVisitor {
 		GlyphRenderer renderer = EmojiGlyphs.getGlyphRenderer(glyph);
 		VertexConsumer consumer = this.vertexConsumers.getBuffer(renderer.getLayer(this.layerType));
 		renderer.draw(false, this.x, this.y, this.matrix, consumer, this.red, this.green, this.blue, this.alpha, this.light);
-		this.x += glyph.getWidth();
+		this.x += glyph.getShift();
 		return true;
 	}
 }

@@ -32,7 +32,11 @@ public class EmojiGlyph implements RenderableGlyph {
 
 	@Override
 	public float getOversample() {
-		return 1.0F;
+		return 10.0F;
+	}
+
+	public float getShift() {
+		return this.getWidth() / this.getOversample();
 	}
 
 	//#if MC < 11900
