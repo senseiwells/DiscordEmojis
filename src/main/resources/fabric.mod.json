@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "discordemoji",
+  "version": "${version}",
+  "name": "Discord Emojis",
+  "description": "Adds support for rending discord emojis",
+  "authors": [
+	"Sensei"
+  ],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "me.senseiwells.discordemojis.DiscordEmojis"
+    ]
+  },
+  "mixins": [
+    "discordemojis.mixins.json"
+  ],
+  "accessWidener": "discordemojis.accesswidener",
+  "depends": {
+    "minecraft": "${minecraft_dependency}",
+    "fabricloader": ">=0.10.0"
+  }
+}

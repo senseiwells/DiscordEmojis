@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "me.senseiwells.discordemojis.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "TextVisitFactoryInvoker",
+    "TextVisitFactoryMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "DrawerMixin"
+  ]
+}
