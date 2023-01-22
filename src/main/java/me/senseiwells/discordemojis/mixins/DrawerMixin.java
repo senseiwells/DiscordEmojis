@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
-@Mixin(TextRenderer.Drawer.class)
+@Mixin(targets = "net/minecraft/client/font/TextRenderer$Drawer")
 public class DrawerMixin implements EmojiVisitor {
 	@Shadow @Final private TextRenderer.TextLayerType layerType;
 	@Shadow @Final private Matrix4f matrix;
@@ -28,7 +28,7 @@ public class DrawerMixin implements EmojiVisitor {
 	@Shadow float y;
 
 	@Override
-	public boolean visit(String emojiId) {
+	public boolean visit(int index, String emojiId) {
 		EmojiGlyph glyph = EmojiGlyphs.getGlyph(emojiId);
 		GlyphRenderer renderer = EmojiGlyphs.getGlyphRenderer(glyph);
 		VertexConsumer consumer = this.vertexConsumers.getBuffer(renderer.getLayer(this.layerType));

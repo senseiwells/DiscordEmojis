@@ -17,4 +17,13 @@ public class TextVisitFactoryMixin {
 	public static boolean visitForwards(String text, Style style, CharacterVisitor visitor) {
 		return TextVisitor.visitForwards(text, style, visitor);
 	}
+
+	/**
+	 * @author Sensei
+	 * @reason Apply visiting discord emojis.
+	 */
+	@Overwrite
+	public static boolean visitFormatted(String text, int startIndex, Style startingStyle, Style resetStyle, CharacterVisitor visitor) {
+		return TextVisitor.visitFormatted(text, startIndex, startingStyle, resetStyle, visitor);
+	}
 }
