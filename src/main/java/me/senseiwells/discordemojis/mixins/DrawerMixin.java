@@ -14,13 +14,18 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(targets = "net/minecraft/client/font/TextRenderer$Drawer")
 public class DrawerMixin implements EmojiVisitor {
+	//#if MC >= 11700
 	@Shadow @Final private TextRenderer.TextLayerType layerType;
+	//#endif
 	@Shadow @Final private Matrix4f matrix;
 	@Shadow @Final private float red;
 	@Shadow @Final private float green;
 	@Shadow @Final private float blue;
 	@Shadow @Final private float alpha;
 	@Shadow @Final private int light;
+	//#if MC < 11700
+	//$$@Shadow @Final private boolean seeThrough;
+	//#endif
 
 	@Shadow @Final VertexConsumerProvider vertexConsumers;
 
@@ -31,7 +36,13 @@ public class DrawerMixin implements EmojiVisitor {
 	public boolean visit(int index, String emojiId) {
 		EmojiGlyph glyph = EmojiGlyphs.getGlyph(emojiId);
 		GlyphRenderer renderer = EmojiGlyphs.getGlyphRenderer(glyph);
-		VertexConsumer consumer = this.vertexConsumers.getBuffer(renderer.getLayer(this.layerType));
+		VertexConsumer consumer = this.vertexConsumers.getBuffer(
+			//#if MC >= 11700
+			renderer.getLayer(this.layerType)
+			//#else
+			//$$renderer.getLayer(this.seeThrough)
+			//#endif
+		);
 		renderer.draw(false, this.x, this.y, this.matrix, consumer, this.red, this.green, this.blue, this.alpha, this.light);
 		this.x += glyph.getShift();
 		return true;
