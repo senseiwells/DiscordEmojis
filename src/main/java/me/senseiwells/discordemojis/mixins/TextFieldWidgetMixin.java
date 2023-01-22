@@ -10,6 +10,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TextFieldWidget.class)
 public class TextFieldWidgetMixin {
+	// TODO: So this is kinda jank...
+	// The reason we do this is because of the text width behaviour
+	// of TextFieldWidgets (used for chat), need to figure out a nice
+	// way of moving the cursor between emojis and stuff...
 	@Inject(method = "renderButton", at = @At("HEAD"))
 	private void preRenderButton(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 		SharedConstants.SHOULD_RENDER_EMOJIS = false;

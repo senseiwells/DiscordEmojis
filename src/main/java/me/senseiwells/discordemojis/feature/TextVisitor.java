@@ -112,7 +112,8 @@ public class TextVisitor {
 		return true;
 	}
 
-	// This is kinda slow...
+	// TODO: This is kinda slow...
+	// TODO: Include the default unicode emojis (in discord format too)
 	private static int parseEmoji(String string, int index, char current, EmojiVisitor visitor) {
 		if (current == '<') {
 			Matcher matcher = CUSTOM_EMOJI.matcher(string);
